@@ -28,4 +28,13 @@ public class FileDataService {
     public FileData retrieveById(UUID id) {
         return fileDataRepository.findById(id).orElseThrow(()->new SdaException("Could not retrieve file with id"+id));
     }
+
+    public FileData update(UUID id, FileData fileData) {
+       FileData entity= retrieveById(id);
+       entity.setExtension(fileData.getExtension());
+       entity.setFileName(fileData.getFileName());
+       entity.setContent(fileData.getContent());
+       entity.setSizeInKb(fileData.getSizeInKb());
+       return entity;
+    }
 }

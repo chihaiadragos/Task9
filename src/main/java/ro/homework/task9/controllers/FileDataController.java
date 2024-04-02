@@ -1,6 +1,7 @@
 package ro.homework.task9.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.homework.task9.entities.FileData;
@@ -27,8 +28,16 @@ public class FileDataController {
     public ResponseEntity<FileData> saveFileData(@RequestBody FileData fileData) throws URISyntaxException {
         FileData result = service.create(fileData);
 
+
         URI resourceUri = new URI(API_FILES_DATA+result.getId());
         return ResponseEntity.created(resourceUri).build();
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<FileData> updateFileData(@PathVariable UUID id, @RequestBody FileData fileData) {
+        service.update(id, fileData);
+       return ResponseEntity.status(HttpStatusCode.valueOf(204)).build();
+//       return ResponseEntity.noContent().build();
     }
     @GetMapping("{id}")
     public FileData getById(@PathVariable UUID id){
