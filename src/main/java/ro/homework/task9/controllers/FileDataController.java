@@ -5,9 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.homework.task9.entities.FileData;
 import ro.homework.task9.exceptions.SdaException;
 import ro.homework.task9.models.FileDataCollection;
+import ro.homework.task9.models.FileDataRequest;
+import ro.homework.task9.models.FileDataResponse;
 import ro.homework.task9.services.FileDataService;
 
 import java.net.URI;
@@ -28,21 +29,21 @@ public class FileDataController {
     }
 
     @PostMapping
-    public ResponseEntity<FileData> saveFileData(@RequestBody FileData fileData) throws URISyntaxException {
-        FileData result = service.create(fileData);
+    public ResponseEntity<FileDataResponse> saveFileData(@RequestBody FileDataRequest fileData) throws URISyntaxException {
+        FileDataResponse result = service.create(fileData);
 
         URI resourceUri = new URI(API_FILES_DATA+result.getId());
         return ResponseEntity.created(resourceUri).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<FileData> updateFileData(@PathVariable UUID id, @RequestBody FileData fileData) {
+    public ResponseEntity<FileDataResponse> updateFileData(@PathVariable UUID id, @RequestBody FileDataRequest fileData) {
         service.update(id, fileData);
        return ResponseEntity.status(HttpStatusCode.valueOf(204)).build();
 //       return ResponseEntity.noContent().build();
     }
     @GetMapping("{id}")
-    public FileData getById(@PathVariable UUID id){
+    public FileDataResponse getById(@PathVariable UUID id){
         return service.retrieveById(id);
     }
 

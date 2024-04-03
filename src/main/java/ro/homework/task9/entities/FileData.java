@@ -22,6 +22,7 @@ public class FileData {
     private String extension;
     private Integer sizeInKb;
     private String content;
+    private String author;
 
 
 }
