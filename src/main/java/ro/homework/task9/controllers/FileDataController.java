@@ -1,6 +1,7 @@
 package ro.homework.task9.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,15 @@ public class FileDataController {
 
     public static final String API_FILES_DATA = "/api/files-data/";
     private final FileDataService service;
+
     @GetMapping
     public FileDataCollection getAllFileData() {
         return service.findAll();
     }
+
     @PostMapping
     public ResponseEntity<FileData> saveFileData(@RequestBody FileData fileData) throws URISyntaxException {
         FileData result = service.create(fileData);
-
 
         URI resourceUri = new URI(API_FILES_DATA+result.getId());
         return ResponseEntity.created(resourceUri).build();
@@ -42,6 +44,13 @@ public class FileDataController {
     @GetMapping("{id}")
     public FileData getById(@PathVariable UUID id){
         return service.retrieveById(id);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFileDate(@PathVariable UUID id) {
+        service.delete(id);
+
     }
 
     @ExceptionHandler(SdaException.class)

@@ -21,7 +21,6 @@ public class FileDataService {
 
     public FileData create(FileData fileData) {
         fileData.setId(null);
-
         return fileDataRepository.save(fileData);
     }
 
@@ -36,5 +35,11 @@ public class FileDataService {
        entity.setContent(fileData.getContent());
        entity.setSizeInKb(fileData.getSizeInKb());
        return entity;
+    }
+
+    public void delete(UUID id) {
+        FileData entity= retrieveById(id);
+//        fileDataRepository.deleteById(id);
+        fileDataRepository.delete(entity);
     }
 }
